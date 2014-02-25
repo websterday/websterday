@@ -1,0 +1,16 @@
+<form role="form" ng-submit="search()">
+	<div class="input-group">
+		<input type="text" class="form-control" ng-model="value" placeholder="Search...">
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+		</span>
+	</div>
+</form><br />
+
+<img src="images/loading.gif" style="display: block; margin: 0 auto 10px" ng-show="showLoading">
+
+<div ng-repeat="l in links" ng-show="links != null">
+	<p><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></p>
+</div>
+
+<div ng-show="noResult">No result</div>

@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('bookmarksApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+	.controller('MainCtrl', ['$scope', '$cookies', function ($scope, $cookies) {
+		// console.log($cookies.auth);
+	}]);
