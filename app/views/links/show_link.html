@@ -1,0 +1,13 @@
+<ul>
+	<li ng-repeat="t in tree">
+		<div ng-click="changeShowLinks(t.id)">{{t.name}}</div>
+		<div ng-switch on="t.folders.length > 0">
+			<div ng-switch-when="true">
+				<div ng-init="tree = t.folders;" ng-include="'views/links/show_link.html'"></div>
+			</div>
+		</div>
+		<div ng-repeat="link in t.links" ng-show="showLinks[t.id]" style="margin-left: 10px">
+			<a ng-href="{{link.url}}" target="_blank">{{link.url}}</a><br />
+		</ul>
+	</li>
+</ul>

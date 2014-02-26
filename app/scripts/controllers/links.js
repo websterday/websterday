@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bookmarksApp')
-	.controller('LinkSearchCtrl', ['$scope', 'Link', function ($scope, Link) {
+	.controller('LinkSearchCtrl', ['$scope', 'Link', function($scope, Link) {
 		$scope.links = null;
 		$scope.noResult = false;
 		$scope.showLoading = false;
@@ -25,6 +25,29 @@ angular.module('bookmarksApp')
 				});
 			} else {
 				$scope.links = null;
+			}
+		}
+	}])
+	.controller('LinkListCtrl', ['$scope', 'Link', function($scope, Link) {
+		// $scope.showLoading = true;
+		$scope.showLinks = {};
+
+		Link.list(function(data) {
+			// $scope.showLoading = false;
+
+			$scope.tree = data;
+
+			// used to know if we have to show the links of each folder
+			angular.forEach($scope.tree, function(t, k) {
+				$scope.showLinks[t.id] = false;
+			});
+		})
+
+		$scope.changeShowLinks = function(id) {
+			if (!$scope.showLinks[id]) {
+				$scope.showLinks[id] = true;
+			} else {
+				$scope.showLinks[id] = false;
 			}
 		}
 	}]);
