@@ -22,4 +22,7 @@ angular.module('bookmarksApp', [
 			$rootScope.isLogged = Auth.check();
 		});
 		// $rootScope.isLogged = false;
+		
+		$rootScope.wsUrl = '/BookmarksWS/';
+		// $rootScope.wsUrl = 'ws/';
 	}]);
