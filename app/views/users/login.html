@@ -1,11 +1,18 @@
-<div class="alert alert-danger" ng-show="showError">Incorrect username and/or password.</div>
+<div id="login">
+	<h1>Login</h1>
 
-<form role="form" ng-submit="login()">
-	<div class="form-group">
-		<input type="text" class="form-control" id="username" ng-model="username" placeholder="Login">
-	</div>
-	<div class="form-group">
-		<input type="password" class="form-control" ng-model="password" placeholder="Password">
-	</div>
-	<button type="submit" class="btn btn-default">Sign In</button>
-</form>
+	<div class="alert alert-danger" ng-show="showError">Incorrect username and/or password.</div>
+
+	<form role="form" ng-submit="login()">
+		<div class="input-group">
+			<span class="input-group-addon glyphicon glyphicon-user"></span>
+			<input type="text" class="form-control" id="username" ng-model="username" placeholder="Login">
+		</div>
+		<div class="input-group">
+			<span class="input-group-addon  glyphicon glyphicon-lock"></span>
+			<input type="password" class="form-control" ng-model="password" placeholder="Password">
+		</div>
+		<a href="#" class="forgotten_password">Forgot your password ?</a>
+		<button type="submit" class="btn btn-default submit">Sign In</button>
+	</form>
+</div>
