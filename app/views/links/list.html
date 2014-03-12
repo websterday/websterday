@@ -1,3 +1,45 @@
-<!-- <div ng-show="showLoading">Chargement en cours...</div> -->
+<h1>History</h1>
 
-<div ng-include="'views/links/show_link.html'" ng-init="tree"></div>
+<div class="f-left">
+	<ol class="breadcrumb breadcrumb_list">
+		<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+		<li><a href="#">Library</a></li>
+		<li class="active">Data</li>
+	</ol>
+</div>
+<div class="f-right">
+	<button type="button" class="btn btn-default new_link">New link</button>
+	<button type="button" class="btn btn-default" style="margin-right: 10px"><i class="fa fa-folder"></i></button>
+	<button type="button" class="btn btn-default" disabled="disabled" style="margin-right: 10px"><i class="fa fa-arrows"></i></button>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" disabled="disabled"><span class="fa fa-copy"></span></button>
+		<button type="button" class="btn btn-default" disabled="disabled"><span class="fa fa-pencil"></span></button>
+		<button type="button" class="btn btn-default" disabled="disabled"><span class="fa fa-trash-o"></span></button>
+	</div>
+</div>
+<div class="clear"></div>
+
+<table class="table table-hover links">
+	<thead>
+		<tr>
+			<th><input type="checkbox"></th>
+			<th>Title</th>
+			<th>Link</th>
+			<th>Added</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><input type="checkbox"></td>
+			<td><i class="fa fa-folder"></i> Test</td>
+			<td></td>
+			<td style="width: 100px">01/01/2014</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox"></td>
+			<td><i class="fa fa-link"></i> Test 2</td>
+			<td><a href="http://www.google.fr/" target="_blank">http://www.google.fr/</a></td>
+			<td style="width: 100px">01/01/2014</td>
+		</tr>
+	</tbody>
+</table>
