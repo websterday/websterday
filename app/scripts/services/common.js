@@ -3,7 +3,7 @@
 angular.module('bookmarksApp')
 	.factory('WS', function () {
 		return {
-			// url: '/BookmarksWS'
-			url: '/~websterday/ws'
+			url: '/BookmarksWS'
+			// url: '/ws'
 		};
 	});

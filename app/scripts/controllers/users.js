@@ -28,6 +28,9 @@ angular.module('bookmarksApp')
 			}
 		}
 	}])
+	.controller('UserAccountCtrl', ['$scope', '$cookieStore', '$location', 'User', function ($scope, $cookieStore, $location, User) {
+		
+	}])
 	.controller('UserLogoutCtrl', ['$scope', '$cookieStore', '$location', function ($scope, $cookieStore, $location) {
 		$cookieStore.remove('token');
 

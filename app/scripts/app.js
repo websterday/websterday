@@ -12,7 +12,7 @@ angular.module('bookmarksApp', [
 		.when('/links', {templateUrl: 'views/links/list.html', controller: 'LinkListCtrl'})
 		.when('/create-account', {templateUrl: 'views/users/add.html', controller: 'UserAddCtrl'})
 		.when('/sign-in', {templateUrl: 'views/users/login.html', controller: 'UserLoginCtrl'})
-		// .when('/account', {templateUrl: 'views/users/account.html', controller: 'UserAccountCtrl'})
+		.when('/account', {templateUrl: 'views/users/account.html', controller: 'UserAccountCtrl'})
 		.when('/logout', {templateUrl: 'views/users/login.html', controller: 'UserLogoutCtrl'})		// TODO delete templateUrl
 		.when('/contact', {templateUrl: 'views/contact/index.html', controller: 'ContactCtrl'})
 		.otherwise({redirectTo: '/'});
