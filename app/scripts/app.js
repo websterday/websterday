@@ -3,13 +3,15 @@
 angular.module('bookmarksApp', [
 	'ngCookies',
 	'ngResource',
-	'ngRoute'
+	'ngRoute',
+	'ui.bootstrap'
 ])
 	.config(function ($routeProvider) {
 		$routeProvider
 		.when('/', {templateUrl: 'views/main.html', controller: 'MainCtrl'})
 		.when('/search', {templateUrl: 'views/links/search.html', controller: 'LinkSearchCtrl'})
 		.when('/links', {templateUrl: 'views/links/list.html', controller: 'LinkListCtrl'})
+		.when('/links/:folderId', {templateUrl: 'views/links/list.html', controller: 'LinkListCtrl'})
 		.when('/create-account', {templateUrl: 'views/users/add.html', controller: 'UserAddCtrl'})
 		.when('/sign-in', {templateUrl: 'views/users/login.html', controller: 'UserLoginCtrl'})
 		.when('/account', {templateUrl: 'views/users/account.html', controller: 'UserAccountCtrl'})

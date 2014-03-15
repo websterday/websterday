@@ -8,7 +8,7 @@ h1 {font-size: 34px; color: #ff551a; margin-top: 40px;}
 .clear {clear: both;}
 
 /* Form */
-.submit, .new_link {background-color: #ff551a; color: #fff; border: none; padding: 8px 18px;}
+.submit, .new_link {background-color: #ff551a; color: #fff; border: none; padding: 7px 18px;}
 
 .submit:hover, .new_link:hover {background-color: #444; color: #fff;}
 
@@ -69,9 +69,13 @@ h1 {font-size: 34px; color: #ff551a; margin-top: 40px;}
 
 .new_link {margin-right: 10px;}
 
+table.links tbody tr {cursor: pointer;}
 table.links a {color: #333;}
 table.links a:hover {color: #ff551a; text-decoration: none;}
 
+/* Modal */
+.modal-header h3 {margin: 5px 0;}
+.modal-footer {padding: 15px;}
 
 /* Various */
 .f-left {float: left;}
