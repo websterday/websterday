@@ -2,13 +2,13 @@
 
 <div class="f-left">
 	<ol class="breadcrumb breadcrumb_list">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
-		<li><a href="#">Library</a></li>
-		<li class="active">Data</li>
+		<li><a href="#/links"><span class="glyphicon glyphicon-home"></span></a></li>
+		<li ng-repeat="b in tree.breadcrumb"><a href="#/links/{{b.id}}">{{b.name}}</a></li>
+		<li class="active">{{tree.folder.name}}</li>
 	</ol>
 </div>
 <div class="f-right">
-	<button type="button" class="btn btn-default new_link">New link</button>
+	<button type="button" class="btn btn-default new_link" ng-click="addModal()">New link</button>
 	<button type="button" class="btn btn-default" style="margin-right: 10px"><i class="fa fa-folder"></i></button>
 	<button type="button" class="btn btn-default" disabled="disabled" style="margin-right: 10px"><i class="fa fa-arrows"></i></button>
 	<div class="btn-group">
@@ -29,17 +29,17 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
+		<tr ng-repeat="f in tree.folders" ng-click="redirect('/links/' + f.id, $event)">
 			<td><input type="checkbox"></td>
-			<td><i class="fa fa-folder"></i> Test</td>
+			<td><i class="fa fa-folder"></i> {{f.name}}</td>
 			<td></td>
-			<td style="width: 100px">01/01/2014</td>
+			<td style="width: 100px">{{f.date * 1000 | date:'MM/dd/yyyy'}}</td>
 		</tr>
-		<tr>
+		<tr ng-repeat="l in tree.links">
 			<td><input type="checkbox"></td>
-			<td><i class="fa fa-link"></i> Test 2</td>
-			<td><a href="http://www.google.fr/" target="_blank">http://www.google.fr/</a></td>
-			<td style="width: 100px">01/01/2014</td>
+			<td><i class="fa fa-link"></i> ...</td>
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
+			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
 		</tr>
 	</tbody>
 </table>

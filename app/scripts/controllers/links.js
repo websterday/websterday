@@ -28,26 +28,45 @@ angular.module('bookmarksApp')
 			}
 		}
 	}])
-	.controller('LinkListCtrl', ['$scope', 'Link', function($scope, Link) {
+	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'Link', function($scope, $routeParams, $location, $modal, Link) {
 		// $scope.showLoading = true;
-		$scope.showLinks = {};
+		// $scope.showLinks = {};
 
-		Link.list(function(data) {
+		Link.list({folderId: $routeParams.folderId}, function(data) {
 			// $scope.showLoading = false;
 
 			$scope.tree = data;
+		});
 
-			// used to know if we have to show the links of each folder
-			angular.forEach($scope.tree, function(t, k) {
-				$scope.showLinks[t.id] = false;
-			});
-		})
-
-		$scope.changeShowLinks = function(id) {
-			if (!$scope.showLinks[id]) {
-				$scope.showLinks[id] = true;
-			} else {
-				$scope.showLinks[id] = false;
-			}
+		$scope.redirect = function(url, event) {
+			// if (event.target.attributes.length == 0) {
+				$location.path(url);
+			// }
 		}
+
+		$scope.addModal = function () {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/add.html',
+				controller: function ($scope, $modalInstance) {
+					$scope.save = function () {
+						console.log($routeParams.folderId);
+						console.log($scope.link);
+						// Link.post({link: $scope.link, folderId: $routeParams.folderId}, function(data) {
+
+						// });
+						$modalInstance.close();
+					};
+
+					$scope.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			// modalInstance.result.then(function (selectedItem) {
+			// 	$scope.selected = selectedItem;
+			// }, function () {
+			// 	$log.info('Modal dismissed at: ' + new Date());
+			// });
+		};
 	}]);
