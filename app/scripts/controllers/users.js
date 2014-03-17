@@ -35,4 +35,7 @@ angular.module('bookmarksApp')
 		$cookieStore.remove('token');
 
 		$location.path('/');
+	}])
+	.controller('UserForgottenPasswordCtrl', ['$scope', function ($scope) {
+		
 	}]);
