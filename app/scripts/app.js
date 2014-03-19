@@ -4,9 +4,11 @@ angular.module('bookmarksApp', [
 	'ngCookies',
 	'ngResource',
 	'ngRoute',
-	'ui.bootstrap'
+	'ui.bootstrap',
+	'ngAnimate',
+	'angular-growl'
 ])
-	.config(function ($routeProvider) {
+	.config(function($routeProvider) {
 		$routeProvider
 		.when('/', {templateUrl: 'views/main.html', controller: 'MainCtrl'})
 		.when('/search', {templateUrl: 'views/links/search.html', controller: 'LinkSearchCtrl'})
@@ -20,6 +22,9 @@ angular.module('bookmarksApp', [
 		.when('/contact', {templateUrl: 'views/contact/index.html', controller: 'ContactCtrl'})
 		.otherwise({redirectTo: '/'});
 	})
+	.config(['growlProvider', function(growlProvider) {
+		growlProvider.globalTimeToLive(3000);
+	}])
 	.run(['$rootScope', 'Auth', function($rootScope, Auth) {
 		$rootScope.$on('$routeChangeStart', function() {
 			$rootScope.isLogged = Auth.check();

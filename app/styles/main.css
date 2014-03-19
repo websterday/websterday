@@ -73,11 +73,19 @@ table.links tbody tr {cursor: pointer;}
 table.links a {color: #333;}
 table.links a:hover {color: #ff551a; text-decoration: none;}
 
+
 /* Modal */
 .modal-header h3 {margin: 5px 0;}
 .modal-footer {padding: 15px;}
+
 
 /* Various */
 .f-left {float: left;}
 .f-right {float: right;}
 .clear {clear: both;}
+
+
+/* Growl */
+.growl {top: auto; bottom: 0;}
+.growl-item.ng-enter, .growl-item.ng-leave {-webkit-transition:1s linear all; -moz-transition:1s linear all; -o-transition:1s linear all; transition:1s linear all;}
+.alert {margin-bottom: 10px;}

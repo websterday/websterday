@@ -26,7 +26,7 @@ angular.module('bookmarksApp')
 			}
 		}
 	}])
-	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'Link', 'Folder', function($scope, $routeParams, $location, $modal, Link, Folder) {
+	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'growl', 'Link', 'Folder', function($scope, $routeParams, $location, $modal, growl, Link, Folder) {
 		$scope.checked = {'folders': {}, 'links': {}};
 
 		$scope.allLinks = false;
@@ -148,8 +148,14 @@ angular.module('bookmarksApp')
 					$scope.link = {};
 
 					$scope.save = function() {
-						Link.post({url: $scope.link.url, folderId: $routeParams.folderId}, function(data) {
-							$modalInstance.close(data);
+						Link.post({url: $scope.link.url, folder_id: $routeParams.folderId}, function(data) {
+							if (angular.isDefined(data.link)) {
+								$modalInstance.close(data.link);
+							} else if (angular.isDefined(data.error)) {
+								$modalInstance.close();
+								growl.addErrorMessage(data.error);
+							}
+							
 						});
 					};
 
@@ -165,7 +171,9 @@ angular.module('bookmarksApp')
 			});
 
 			modalInstance.result.then(function(link) {
-				$scope.tree['links'].push(link);
+				if (angular.isDefined(link)) {
+					$scope.tree['links'].push(link);
+				}
 			}, function () {
 				$log.info('Modal dismissed at: ' + new Date());
 			});
