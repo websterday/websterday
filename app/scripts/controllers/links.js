@@ -9,8 +9,6 @@ angular.module('bookmarksApp')
 		$scope.search = function() {
 			$scope.noResult = false;
 
-			// console.log($scope.value);
-
 			if ($scope.value != undefined && $scope.value != '') {
 				$scope.showLoading = true;
 
@@ -28,9 +26,7 @@ angular.module('bookmarksApp')
 			}
 		}
 	}])
-	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'Link', function($scope, $routeParams, $location, $modal, Link) {
-		// $scope.showLoading = true;
-		// $scope.showLinks = {};
+	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'Link', 'Folder', function($scope, $routeParams, $location, $modal, Link, Folder) {
 		$scope.checked = {'folders': {}, 'links': {}};
 
 		$scope.allLinks = false;
@@ -111,18 +107,50 @@ angular.module('bookmarksApp')
 			event.stopPropagation();
 		}
 
-		$scope.addModal = function() {
+		$scope.editFolder = function(id, name, event) {
+			var folder = {'id': id, 'name': name};
+			$scope.editFolderModal(folder);
+
+			event.stopPropagation();
+		}
+
+		$scope.deleteFolder = function(id, event) {
+			console.log('delete folder ' + id);
+
+			$scope.deleteModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.editLink = function(id, event) {
+			console.log('edit link ' + id);
+
+			$scope.editLinkModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.deleteLink = function(id, event) {
+			console.log('delete link ' + id);
+
+			$scope.deleteModal(id);
+
+			event.stopPropagation();
+		}
+
+		/**
+		 * Show modal to add a link
+		 */
+		$scope.addLinkModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/add.html',
 				controller: function($scope, $modalInstance, folderId) {
-					$scope.link = {'name': 'ddddd'};
+					$scope.link = {};
 
 					$scope.save = function() {
-						console.log($scope.link.name);
-						// Link.post({link: link, folderId: $routeParams.folderId}, function(data) {
-
-						// });
-						$modalInstance.close();
+						Link.post({url: $scope.link.url, folderId: $routeParams.folderId}, function(data) {
+							$modalInstance.close(data);
+						});
 					};
 
 					$scope.cancel = function () {
@@ -135,8 +163,17 @@ angular.module('bookmarksApp')
 					}
 				}
 			});
+
+			modalInstance.result.then(function(link) {
+				$scope.tree['links'].push(link);
+			}, function () {
+				$log.info('Modal dismissed at: ' + new Date());
+			});
 		};
 
+		/**
+		 * Show the modal to add a folder
+		 */
 		$scope.addFolderModal = function() {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/add_folder.html',
@@ -150,19 +187,81 @@ angular.module('bookmarksApp')
 						$modalInstance.close();
 					};
 
-					$scope.cancel = function () {
+					$scope.cancel = function() {
 						$modalInstance.dismiss('cancel');
 					};
 				},
 				resolve: {
-					folderId: function () {
+					folderId: function() {
 						return $routeParams.folderId;
 					}
 				}
 			});
 		};
 
-		$scope.deleteModal = function() {
+		/**
+		 * Show the modal to edit a folder
+		 * @param  {[type]} folder [description]
+		 * @return {[type]}        [description]
+		 */
+		$scope.editFolderModal = function(folder) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/edit_folder.html',
+				controller: function($scope, $modalInstance, folder) {
+					$scope.folder = folder;
+
+					$scope.save = function() {
+						Folder.put({id: $scope.folder.id, name: $scope.folder.name}, function(data) {
+							// TODO manage errors
+
+							$modalInstance.close();
+						});
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				resolve: {
+					folder: function() {
+						return folder;
+					}
+				}
+			});
+		};
+
+		/**
+		 * Show the modal to edit a link
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.editLinkModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/edit.html',
+				controller: function($scope, $modalInstance) {
+					
+					$scope.save = function() {
+						$modalInstance.close();
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				// resolve: {
+				// 	folderId: function() {
+				// 		return $routeParams.folderId;
+				// 	}
+				// }
+			});
+		};
+
+		/**
+		 * Show and manage the delete modal
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.deleteModal = function(id) {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/delete.html',
 				controller: function($scope, $modalInstance) {
@@ -171,12 +270,12 @@ angular.module('bookmarksApp')
 						$modalInstance.close();
 					};
 
-					$scope.cancel = function () {
+					$scope.cancel = function() {
 						$modalInstance.dismiss('cancel');
 					};
 				},
 				// resolve: {
-				// 	folderId: function () {
+				// 	folderId: function() {
 				// 		return $routeParams.folderId;
 				// 	}
 				// }
