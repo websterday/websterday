@@ -70,6 +70,14 @@ angular.module('bookmarksApp')
 			angular.forEach($scope.tree.links, function(t) {
 				$scope.checked['links'][t.id] = value;
 			});
+
+			if (value) {
+				$scope.showMoveButton   = true;
+				$scope.showDeleteButton = true;
+			} else {
+				$scope.showMoveButton   = false;
+				$scope.showDeleteButton = false;
+			}
 		}
 
 		$scope.check = function(id, type, event) {
@@ -249,7 +257,6 @@ angular.module('bookmarksApp')
 			});
 		};
 
-
 		/**
 		 * Show the modal to add a folder
 		 */
@@ -366,6 +373,60 @@ angular.module('bookmarksApp')
 						if (l.id == id) {
 							$scope.tree['folders'].splice(k, 1);
 						}
+					});
+				}
+			});
+		};
+
+		/**
+		 * Show and manage the delete modal for selected links
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.deleteMultipleModal = function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/delete_multiple.html',
+				controller: function($scope, $modalInstance, list) {
+
+					$scope.delete = function() {
+						Link.deleteMultiple({list: list}, function(data) {
+							if (angular.isUndefined(data.error)) {
+								$modalInstance.close(list);
+							} else {
+								$modalInstance.close();
+
+								growl.addErrorMessage(data.error);
+							}
+						});
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				resolve: {
+					list: function() {
+						return $scope.checked;
+					}
+				}
+			});
+
+			modalInstance.result.then(function(list) {
+				if (angular.isDefined(list)) {
+					angular.forEach(list['folders'], function(f, k) {
+						angular.forEach($scope.tree['folders'], function(f2, k2) {
+							if (f2.id == k) {
+								$scope.tree['folders'].splice(k2, 1);
+							}
+						});
+					});
+
+					angular.forEach(list['links'], function(l, k) {
+						angular.forEach($scope.tree['links'], function(l2, k2) {
+							if (l2.id == k) {
+								$scope.tree['links'].splice(k2, 1);
+							}
+						});
 					});
 				}
 			});
