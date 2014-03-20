@@ -36,7 +36,7 @@
 			<td><i class="fa fa-folder"></i> {{f.name}}</td>
 			<td></td>
 			<td style="width: 100px">{{f.date * 1000 | date:'MM/dd/yyyy'}}</td>
-			<td ng-click="$event.stopPropagation();" style="width: 20px"><span class="fa fa-pencil" ng-click="editFolder(f.id, f.name, $event)"></span></td>
+			<td ng-click="$event.stopPropagation();" style="width: 20px"><span class="fa fa-pencil" ng-click="editFolder(f.id, f.name, f.date, $event)"></span></td>
 			<td ng-click="deleteFolder(f.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
 		</tr>
 		<tr ng-repeat="l in tree.links" ng-click="checkLine(l.id, 'links')">
