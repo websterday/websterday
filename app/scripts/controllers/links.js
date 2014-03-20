@@ -133,7 +133,7 @@ angular.module('bookmarksApp')
 		$scope.deleteLink = function(id, event) {
 			console.log('delete link ' + id);
 
-			$scope.deleteModal(id);
+			$scope.deleteLinkModal(id);
 
 			event.stopPropagation();
 		}
@@ -175,7 +175,7 @@ angular.module('bookmarksApp')
 					$scope.tree['links'].push(link);
 				}
 			}, function () {
-				$log.info('Modal dismissed at: ' + new Date());
+				// $log.info('Modal dismissed at: ' + new Date());
 			});
 		};
 
@@ -186,13 +186,17 @@ angular.module('bookmarksApp')
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/add_folder.html',
 				controller: function($scope, $modalInstance, folderId) {
+					$scope.folder = {};
 					
 					$scope.save = function() {
-						console.log($scope.link.name);
-						// Link.post({link: link, folderId: $routeParams.folderId}, function(data) {
-
-						// });
-						$modalInstance.close();
+						Folder.post({name: $scope.folder.name, parent_id: $routeParams.folderId}, function(data) {
+							if (angular.isDefined(data.folder)) {
+								$modalInstance.close(data.folder);
+							} else if (angular.isDefined(data.error)) {
+								$modalInstance.close();
+								growl.addErrorMessage(data.error);
+							}
+						});
 					};
 
 					$scope.cancel = function() {
@@ -204,6 +208,14 @@ angular.module('bookmarksApp')
 						return $routeParams.folderId;
 					}
 				}
+			});
+
+			modalInstance.result.then(function(folder) {
+				if (angular.isDefined(folder)) {
+					$scope.tree['folders'].push(folder);
+				}
+			}, function () {
+				// $log.info('Modal dismissed at: ' + new Date());
 			});
 		};
 
@@ -269,24 +281,38 @@ angular.module('bookmarksApp')
 		 * @param  {[type]} id [description]
 		 * @return {[type]}    [description]
 		 */
-		$scope.deleteModal = function(id) {
+		$scope.deleteLinkModal = function(id) {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/delete.html',
 				controller: function($scope, $modalInstance) {
-					
+
 					$scope.delete = function() {
-						$modalInstance.close();
+						Link.delete({id: id}, function(data) {
+							if (angular.isUndefined(data.error)) {
+								$modalInstance.close(id);
+							} else {
+								$modalInstance.close();
+
+								growl.addErrorMessage(data.error);
+							}
+						});
 					};
 
 					$scope.cancel = function() {
 						$modalInstance.dismiss('cancel');
 					};
-				},
-				// resolve: {
-				// 	folderId: function() {
-				// 		return $routeParams.folderId;
-				// 	}
-				// }
+				}
 			});
+
+			modalInstance.result.then(function(id) {
+				if (angular.isDefined(id)) {
+					angular.forEach($scope.tree['links'], function(l, k) {
+						if (l.id == id) {
+							$scope.tree['links'].splice(k, 1);
+						}
+					});
+				}
+			});
+
 		};
 	}]);
