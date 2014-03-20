@@ -115,15 +115,15 @@ angular.module('bookmarksApp')
 		}
 
 		$scope.deleteFolder = function(id, event) {
-			console.log('delete folder ' + id);
+			// console.log('delete folder ' + id);
 
-			$scope.deleteModal(id);
+			$scope.deleteFolderModal(id);
 
 			event.stopPropagation();
 		}
 
 		$scope.editLink = function(id, event) {
-			console.log('edit link ' + id);
+			// console.log('edit link ' + id);
 
 			$scope.editLinkModal(id);
 
@@ -131,7 +131,7 @@ angular.module('bookmarksApp')
 		}
 
 		$scope.deleteLink = function(id, event) {
-			console.log('delete link ' + id);
+			// console.log('delete link ' + id);
 
 			$scope.deleteLinkModal(id);
 
@@ -176,77 +176,6 @@ angular.module('bookmarksApp')
 				}
 			}, function () {
 				// $log.info('Modal dismissed at: ' + new Date());
-			});
-		};
-
-		/**
-		 * Show the modal to add a folder
-		 */
-		$scope.addFolderModal = function() {
-			var modalInstance = $modal.open({
-				templateUrl: 'views/links/add_folder.html',
-				controller: function($scope, $modalInstance, folderId) {
-					$scope.folder = {};
-					
-					$scope.save = function() {
-						Folder.post({name: $scope.folder.name, parent_id: $routeParams.folderId}, function(data) {
-							if (angular.isDefined(data.folder)) {
-								$modalInstance.close(data.folder);
-							} else if (angular.isDefined(data.error)) {
-								$modalInstance.close();
-								growl.addErrorMessage(data.error);
-							}
-						});
-					};
-
-					$scope.cancel = function() {
-						$modalInstance.dismiss('cancel');
-					};
-				},
-				resolve: {
-					folderId: function() {
-						return $routeParams.folderId;
-					}
-				}
-			});
-
-			modalInstance.result.then(function(folder) {
-				if (angular.isDefined(folder)) {
-					$scope.tree['folders'].push(folder);
-				}
-			}, function () {
-				// $log.info('Modal dismissed at: ' + new Date());
-			});
-		};
-
-		/**
-		 * Show the modal to edit a folder
-		 * @param  {[type]} folder [description]
-		 * @return {[type]}        [description]
-		 */
-		$scope.editFolderModal = function(folder) {
-			var modalInstance = $modal.open({
-				templateUrl: 'views/links/edit_folder.html',
-				controller: function($scope, $modalInstance, folder) {
-					$scope.folder = folder;
-
-					$scope.save = function() {
-						Folder.put({id: $scope.folder.id, name: $scope.folder.name}, function(data) {
-							// TODO manage errors
-
-							$modalInstance.close();
-						});
-					};
-
-					$scope.cancel = function() {
-						$modalInstance.dismiss('cancel');
-					};
-				},
-				resolve: {
-					folder: function() {
-						return folder;
-					}
-				}
 			});
 		};
 
@@ -313,6 +242,116 @@ angular.module('bookmarksApp')
 					});
 				}
 			});
+		};
 
+
+		/**
+		 * Show the modal to add a folder
+		 */
+		$scope.addFolderModal = function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/folders/add.html',
+				controller: function($scope, $modalInstance, folderId) {
+					$scope.folder = {};
+					
+					$scope.save = function() {
+						Folder.post({name: $scope.folder.name, parent_id: $routeParams.folderId}, function(data) {
+							if (angular.isDefined(data.folder)) {
+								$modalInstance.close(data.folder);
+							} else if (angular.isDefined(data.error)) {
+								$modalInstance.close();
+								growl.addErrorMessage(data.error);
+							}
+						});
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				resolve: {
+					folderId: function() {
+						return $routeParams.folderId;
+					}
+				}
+			});
+
+			modalInstance.result.then(function(folder) {
+				if (angular.isDefined(folder)) {
+					$scope.tree['folders'].push(folder);
+				}
+			}, function () {
+				// $log.info('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		/**
+		 * Show the modal to edit a folder
+		 * @param  {[type]} folder [description]
+		 * @return {[type]}        [description]
+		 */
+		$scope.editFolderModal = function(folder) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/folders/edit.html',
+				controller: function($scope, $modalInstance, folder) {
+					$scope.folder = folder;
+
+					$scope.save = function() {
+						Folder.put({id: $scope.folder.id, name: $scope.folder.name}, function(data) {
+							// TODO manage errors
+
+							$modalInstance.close();
+						});
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				},
+				resolve: {
+					folder: function() {
+						return folder;
+					}
+				}
+			});
+		};
+
+		/**
+		 * Show and manage the delete modal
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.deleteFolderModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/folders/delete.html',
+				controller: function($scope, $modalInstance) {
+
+					$scope.delete = function() {
+						Folder.delete({id: id}, function(data) {
+							if (angular.isUndefined(data.error)) {
+								$modalInstance.close(id);
+							} else {
+								$modalInstance.close();
+
+								growl.addErrorMessage(data.error);
+							}
+						});
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			modalInstance.result.then(function(id) {
+				if (angular.isDefined(id)) {
+					angular.forEach($scope.tree['folders'], function(l, k) {
+						if (l.id == id) {
+							$scope.tree['folders'].splice(k, 1);
+						}
+					});
+				}
+			});
 		};
 	}]);
