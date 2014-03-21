@@ -69,6 +69,8 @@ h1 {font-size: 30px; color: #ff551a; margin: 30px 0 20px;}
 
 .new_link {margin-right: 10px;}
 
+.empty_list {text-align: center; margin-bottom: 20px;}
+
 table.links tbody tr {cursor: pointer;}
 table.links a {color: #333;}
 table.links a:hover {color: #ff551a; text-decoration: none;}

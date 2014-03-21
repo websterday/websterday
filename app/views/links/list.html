@@ -19,7 +19,7 @@
 </div>
 <div class="clear"></div>
 
-<table class="table table-hover links">
+<table class="table table-hover links" ng-show="tree.folders.length > 0 || tree.links.length > 0">
 	<thead>
 		<tr>
 			<th><input type="checkbox" ng-model="allLinks" ng-click="checkAll()"></th>
@@ -49,3 +49,5 @@
 		</tr>
 	</tbody>
 </table>
+
+<p class="empty_list" ng-show="tree.folders.length == 0 && tree.links.length == 0">Nothing here...</p>
