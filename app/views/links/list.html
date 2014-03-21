@@ -44,7 +44,7 @@
 			<td><i class="fa fa-link"></i> ...</td>
 			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
 			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
-			<td ng-click="editLink(l.id, $event)"style="width: 20px"><span class="fa fa-pencil"></span></td>
+			<td ng-click="editLink(l, $event)"style="width: 20px"><span class="fa fa-pencil"></span></td>
 			<td ng-click="deleteLink(l.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
 		</tr>
 	</tbody>

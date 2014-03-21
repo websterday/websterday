@@ -137,10 +137,9 @@ angular.module('bookmarksApp')
 			event.stopPropagation();
 		}
 
-		$scope.editLink = function(id, event) {
-			// console.log('edit link ' + id);
+		$scope.editLink = function(link, event) {
 
-			$scope.editLinkModal(id);
+			$scope.editLinkModal(link.id, link.url, link.date);
 
 			event.stopPropagation();
 		}
@@ -170,7 +169,6 @@ angular.module('bookmarksApp')
 								$modalInstance.close();
 								growl.addErrorMessage(data.error);
 							}
-							
 						});
 					};
 
@@ -197,24 +195,39 @@ angular.module('bookmarksApp')
 		 * @param  {[type]} id [description]
 		 * @return {[type]}    [description]
 		 */
-		$scope.editLinkModal = function(id) {
+		$scope.editLinkModal = function(id, url, date) {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/edit.html',
 				controller: function($scope, $modalInstance) {
+
+					$scope.link = {'id': id, 'url': url, date: date};
 					
 					$scope.save = function() {
-						$modalInstance.close();
+						Link.put({id: $scope.link.id, url: $scope.link.url}, function(data) {
+							console.log(data);
+							if (angular.isUndefined(data.error)) {
+								$modalInstance.close($scope.link);
+							} else {
+								$modalInstance.close();
+								growl.addErrorMessage(data.error);
+							}
+						});
 					};
 
 					$scope.cancel = function() {
 						$modalInstance.dismiss('cancel');
-					};
-				},
-				// resolve: {
-				// 	folderId: function() {
-				// 		return $routeParams.folderId;
-				// 	}
-				// }
+					}
+				}
+			});
+
+			modalInstance.result.then(function(link) {
+				if (angular.isDefined(link)) {
+					angular.forEach($scope.tree['links'], function(l, k) {
+						if (l.id == link.id) {
+							$scope.tree['links'][k] = link;
+						}
+					});
+				}
 			});
 		};
 
