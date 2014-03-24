@@ -36,8 +36,6 @@ angular.module('bookmarksApp')
 		$scope.linkChecked = false;
 
 		$scope.showMoveButton      = false;
-		$scope.showDuplicateButton = false;
-		$scope.showEditButton      = false;
 		$scope.showDeleteButton    = false;
 
 		// $scope.folderId = $routeParams.folderId;
@@ -83,18 +81,9 @@ angular.module('bookmarksApp')
 		$scope.check = function(id, type, event) {
 			var input = !$scope.checked[type][id];
 
-			var nbItemsChecked = 0;
+			var nbItemsChecked = Object.keys($scope.checked['folders']).length + Object.keys($scope.checked['links']).length;
 
-			angular.forEach($scope.checked['folders'], function(f) {
-				if (f) {
-					nbItemsChecked++;
-				}
-			});
-			angular.forEach($scope.checked['links'], function(f) {
-				if (f) {
-					nbItemsChecked++;
-				}
-			});
+			// console.log(nbItemsChecked);
 
 			if (input || nbItemsChecked > 1) {
 				$scope.showMoveButton   = true;
@@ -104,20 +93,50 @@ angular.module('bookmarksApp')
 				$scope.showDeleteButton = false;
 			}
 
-			if ((input && nbItemsChecked == 0) || (!input && nbItemsChecked == 2)) {
-				$scope.showDuplicateButton = true;
-				$scope.showEditButton      = true;
-			} else {
-				$scope.showDuplicateButton = false;
-				$scope.showEditButton      = false;
-			}
-
 			// check if we have to check the "all checkbox"
 			if (input && nbItemsChecked >= ($scope.tree['folders'].length + $scope.tree['links'].length - 1)) {
 				$scope.allLinks = true;
 			} else if (!input && $scope.allLinks) {		// "all checkbox" enabled and we disable one
 				$scope.allLinks = false;
 			}
+
+			event.stopPropagation();
+		}
+
+		$scope.moveLink = function(id, event) {
+			$scope.moveLinkModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.duplicateLink = function(id, event) {
+			$scope.duplicateLinkModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.editLink = function(link, event) {
+			$scope.editLinkModal(link.id, link.url, link.date);
+
+			event.stopPropagation();
+		}
+
+		$scope.deleteLink = function(id, event) {
+			// console.log('delete link ' + id);
+
+			$scope.deleteLinkModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.moveFolder = function(id, event) {
+			$scope.moveFolderModal(id);
+
+			event.stopPropagation();
+		}
+
+		$scope.duplicateFolder = function(id, event) {
+			$scope.duplicateFolderModal(id);
 
 			event.stopPropagation();
 		}
@@ -137,27 +156,12 @@ angular.module('bookmarksApp')
 			event.stopPropagation();
 		}
 
-		$scope.editLink = function(link, event) {
-
-			$scope.editLinkModal(link.id, link.url, link.date);
-
-			event.stopPropagation();
-		}
-
-		$scope.deleteLink = function(id, event) {
-			// console.log('delete link ' + id);
-
-			$scope.deleteLinkModal(id);
-
-			event.stopPropagation();
-		}
-
 		/**
 		 * Show modal to add a link
 		 */
 		$scope.addLinkModal = function() {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/add.html',
+				templateUrl: 'views/links/modal/add.html',
 				controller: function($scope, $modalInstance, folderId) {
 					$scope.link = {};
 
@@ -191,13 +195,93 @@ angular.module('bookmarksApp')
 		};
 
 		/**
+		 * Show a modal to move a link
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.moveLinkModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/modal/move.html',
+				controller: function($scope, $modalInstance) {
+
+					$scope.move = function() {
+						// Link.move({id: id}, function(data) {
+						// 	console.log(data);
+							// if (angular.isUndefined(data.error)) {
+							// 	$modalInstance.close(id);
+							// } else {
+							// 	$modalInstance.close();
+
+							// 	growl.addErrorMessage(data.error);
+							// }
+						// });
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			modalInstance.result.then(function(id) {
+				// if (angular.isDefined(id)) {
+				// 	angular.forEach($scope.tree['links'], function(l, k) {
+				// 		if (l.id == id) {
+				// 			$scope.tree['links'].splice(k, 1);
+				// 		}
+				// 	});
+				// }
+			});
+		};
+
+		/**
+		 * Show a modal to duplicate a link
+		 * @param  {[type]} id [description]
+		 * @return {[type]}    [description]
+		 */
+		$scope.duplicateLinkModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/modal/duplicate.html',
+				controller: function($scope, $modalInstance) {
+
+					$scope.duplicate = function() {
+						// Link.duplicate({id: id}, function(data) {
+						// 	console.log(data);
+							// if (angular.isUndefined(data.error)) {
+							// 	$modalInstance.close(id);
+							// } else {
+							// 	$modalInstance.close();
+
+							// 	growl.addErrorMessage(data.error);
+							// }
+						// });
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			modalInstance.result.then(function(id) {
+				// if (angular.isDefined(id)) {
+				// 	angular.forEach($scope.tree['links'], function(l, k) {
+				// 		if (l.id == id) {
+				// 			$scope.tree['links'].splice(k, 1);
+				// 		}
+				// 	});
+				// }
+			});
+		};
+
+		/**
 		 * Show the modal to edit a link
 		 * @param  {[type]} id [description]
 		 * @return {[type]}    [description]
 		 */
 		$scope.editLinkModal = function(id, url, date) {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/edit.html',
+				templateUrl: 'views/links/modal/edit.html',
 				controller: function($scope, $modalInstance) {
 
 					$scope.link = {'id': id, 'url': url, date: date};
@@ -238,7 +322,7 @@ angular.module('bookmarksApp')
 		 */
 		$scope.deleteLinkModal = function(id) {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/delete.html',
+				templateUrl: 'views/links/modal/delete.html',
 				controller: function($scope, $modalInstance) {
 
 					$scope.delete = function() {
@@ -275,7 +359,7 @@ angular.module('bookmarksApp')
 		 */
 		$scope.addFolderModal = function() {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/folders/add.html',
+				templateUrl: 'views/links/modal/folders/add.html',
 				controller: function($scope, $modalInstance, folderId) {
 					$scope.folder = {};
 					
@@ -308,6 +392,74 @@ angular.module('bookmarksApp')
 			});
 		};
 
+		$scope.moveFolderModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/modal/folders/move.html',
+				controller: function($scope, $modalInstance) {
+
+					$scope.move = function() {
+						// Folder.move({id: id}, function(data) {
+							// if (angular.isUndefined(data.error)) {
+							// 	$modalInstance.close(id);
+							// } else {
+							// 	$modalInstance.close();
+
+							// 	growl.addErrorMessage(data.error);
+							// }
+						// });
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			modalInstance.result.then(function(id) {
+				// if (angular.isDefined(id)) {
+				// 	angular.forEach($scope.tree['folders'], function(l, k) {
+				// 		if (l.id == id) {
+				// 			$scope.tree['folders'].splice(k, 1);
+				// 		}
+				// 	});
+				// }
+			});
+		};
+
+		$scope.duplicateFolderModal = function(id) {
+			var modalInstance = $modal.open({
+				templateUrl: 'views/links/modal/folders/duplicate.html',
+				controller: function($scope, $modalInstance) {
+
+					$scope.duplicate = function() {
+						// Folder.duplicate({id: id}, function(data) {
+							// if (angular.isUndefined(data.error)) {
+							// 	$modalInstance.close(id);
+							// } else {
+							// 	$modalInstance.close();
+
+							// 	growl.addErrorMessage(data.error);
+							// }
+						// });
+					};
+
+					$scope.cancel = function() {
+						$modalInstance.dismiss('cancel');
+					};
+				}
+			});
+
+			modalInstance.result.then(function(id) {
+				// if (angular.isDefined(id)) {
+				// 	angular.forEach($scope.tree['folders'], function(l, k) {
+				// 		if (l.id == id) {
+				// 			$scope.tree['folders'].splice(k, 1);
+				// 		}
+				// 	});
+				// }
+			});
+		};
+
 		/**
 		 * Show the modal to edit a folder
 		 * @param  {[type]} folder [description]
@@ -315,7 +467,7 @@ angular.module('bookmarksApp')
 		 */
 		$scope.editFolderModal = function(folder) {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/folders/edit.html',
+				templateUrl: 'views/links/modal/folders/edit.html',
 				controller: function($scope, $modalInstance, folder) {
 					$scope.folder = folder;
 
@@ -359,7 +511,7 @@ angular.module('bookmarksApp')
 		 */
 		$scope.deleteFolderModal = function(id) {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/folders/delete.html',
+				templateUrl: 'views/links/modal/folders/delete.html',
 				controller: function($scope, $modalInstance) {
 
 					$scope.delete = function() {
@@ -398,7 +550,7 @@ angular.module('bookmarksApp')
 		 */
 		$scope.deleteMultipleModal = function() {
 			var modalInstance = $modal.open({
-				templateUrl: 'views/links/delete_multiple.html',
+				templateUrl: 'views/links/modal/delete_multiple.html',
 				controller: function($scope, $modalInstance, list) {
 
 					$scope.delete = function() {
