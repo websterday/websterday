@@ -20,6 +20,8 @@ angular.module('bookmarksApp', [
 		.when('/account', {templateUrl: 'views/users/account.html', controller: 'UserAccountCtrl'})
 		.when('/logout', {templateUrl: 'views/users/login.html', controller: 'UserLogoutCtrl'})		// TODO delete templateUrl
 		.when('/contact', {templateUrl: 'views/contact/index.html', controller: 'ContactCtrl'})
+		.when('/privacy_policy', {templateUrl: 'views/privacy_policy.html', controller: 'PrivacyPolicyCtrl'})
+		.when('/terms_of_service', {templateUrl: 'views/terms_service.html', controller: 'TermsServiceCtrl'})
 		.otherwise({redirectTo: '/'});
 	})
 	.config(['growlProvider', function(growlProvider) {

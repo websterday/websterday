@@ -11,15 +11,19 @@ angular.module('bookmarksApp')
 			if ($scope.user.username != null && $scope.user.email != null && $scope.user.password != null &&
 				$scope.user.confirmPassword != null) {
 				if ($scope.user.password == $scope.user.confirmPassword) {
-					delete $scope.user.confirmPassword;
-					// console.log($scope.user);
-					User.post({user: $scope.user}, function(data) {
-						if (angular.isDefined(data[0]) && data[0] == 1) {
-							$scope.showConfirmation = true;
-						}  else if (angular.isDefined(data.error)) {
-							growl.addErrorMessage(data.error);
-						}
-					});
+					if ($scope.user.password.length >= 3) {
+						delete $scope.user.confirmPassword;
+						// console.log($scope.user);
+						User.post({user: $scope.user}, function(data) {
+							if (angular.isDefined(data[0]) && data[0] == 1) {
+								$scope.showConfirmation = true;
+							}  else if (angular.isDefined(data.error)) {
+								growl.addErrorMessage(data.error);
+							}
+						});
+					} else {
+						growl.addErrorMessage('Your password must be longer');
+					}
 				} else {
 					growl.addErrorMessage('Passwords are different');
 				}
