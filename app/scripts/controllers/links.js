@@ -82,8 +82,9 @@ angular.module('bookmarksApp')
 			var input = !$scope.checked[type][id];
 
 			var nbItemsChecked = Object.keys($scope.checked['folders']).length + Object.keys($scope.checked['links']).length;
+			var nbItemsTotal = Object.keys($scope.tree['folders']).length + Object.keys($scope.tree['links']).length;
 
-			// console.log(nbItemsChecked);
+			// console.log(nbItemsChecked + ' - ' + nbItemsTotal);
 
 			if (input || nbItemsChecked > 1) {
 				$scope.showMoveButton   = true;
@@ -94,9 +95,9 @@ angular.module('bookmarksApp')
 			}
 
 			// check if we have to check the "all checkbox"
-			if (input && nbItemsChecked >= ($scope.tree['folders'].length + $scope.tree['links'].length - 1)) {
+			if (input && nbItemsChecked >= nbItemsTotal - 1) {
 				$scope.allLinks = true;
-			} else if (!input && $scope.allLinks) {		// "all checkbox" enabled and we disable one
+			} else if (!input && $scope.allLinks) {
 				$scope.allLinks = false;
 			}
 
@@ -115,8 +116,9 @@ angular.module('bookmarksApp')
 			event.stopPropagation();
 		}
 
-		$scope.editLink = function(link, event) {
-			$scope.editLinkModal(link.id, link.url, link.date);
+		$scope.editLink = function(id, url, date, event) {
+			var link = {'id': id, 'url': url, 'date': date};
+			$scope.editLinkModal(link);
 
 			event.stopPropagation();
 		}
@@ -279,12 +281,12 @@ angular.module('bookmarksApp')
 		 * @param  {[type]} id [description]
 		 * @return {[type]}    [description]
 		 */
-		$scope.editLinkModal = function(id, url, date) {
+		$scope.editLinkModal = function(link) {
 			var modalInstance = $modal.open({
 				templateUrl: 'views/links/modal/edit.html',
 				controller: function($scope, $modalInstance) {
 
-					$scope.link = {'id': id, 'url': url, date: date};
+					$scope.link = link;
 					
 					$scope.save = function() {
 						Link.put({id: $scope.link.id, url: $scope.link.url}, function(data) {

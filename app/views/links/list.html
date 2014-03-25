@@ -11,7 +11,7 @@
 	<button type="button" class="btn btn-default new_link" ng-click="addLinkModal()">New link</button>
 	<button type="button" class="btn btn-default" ng-click="addFolderModal()" style="margin-right: 10px"><i class="fa fa-folder"></i></button>
 	<div class="btn-group">
-		<button type="button" class="btn btn-default" ng-disabled="!showMoveButton"><i class="fa fa-arrows"></i></button>
+		<!-- <button type="button" class="btn btn-default" ng-disabled="!showMoveButton"><i class="fa fa-arrows"></i></button> -->
 		<button type="button" class="btn btn-default" ng-disabled="!showDeleteButton" ng-click="deleteMultipleModal()"><span class="fa fa-trash-o"></span></button>
 	</div>
 </div>
@@ -34,8 +34,8 @@
 			<td><i class="fa fa-folder"></i> {{f.name}}</td>
 			<td></td>
 			<td style="width: 100px">{{f.date * 1000 | date:'MM/dd/yyyy'}}</td>
-			<td ng-click="moveFolder(f.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td>
-			<td ng-click="duplicateFolder(f.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td>
+			<!-- <td ng-click="moveFolder(f.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td> -->
+			<!-- <td ng-click="duplicateFolder(f.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td> -->
 			<td ng-click="editFolder(f.id, f.name, f.date, $event)" style="width: 20px"><span class="fa fa-pencil"></span></td>
 			<td ng-click="deleteFolder(f.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
 		</tr>
@@ -44,9 +44,9 @@
 			<td><i class="fa fa-link"></i> ...</td>
 			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
 			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
-			<td ng-click="moveLink(l.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td>
-			<td ng-click="duplicateLink(l.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td>
-			<td ng-click="editLink(l.id, $event)" style="width: 20px"><span class="fa fa-pencil"></span></td>
+			<!-- <td ng-click="moveLink(l.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td> -->
+			<!-- <td ng-click="duplicateLink(l.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td> -->
+			<td ng-click="editLink(l.id, l.url, l.date, $event)" style="width: 20px"><span class="fa fa-pencil"></span></td>
 			<td ng-click="deleteLink(l.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
 		</tr>
 	</tbody>
