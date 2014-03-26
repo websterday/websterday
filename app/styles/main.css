@@ -38,6 +38,8 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 .navbar-collapse .navbar-nav {margin: 0 -15px;}
 .navbar-collapse .navbar-nav li {background-color: #f5f5f5;}
 
+.navbar > .container .navbar-brand {font-size: 26px; text-transform: none; color: #444;}
+.navbar > .container .navbar-brand .first {color: #FF551A;}
 
 /* Footer */
 #footer {position: absolute; bottom: 0; width: 100%; height: 190px; background-color: #444; color: #fff; font-family: 'Open Sans';}
@@ -52,6 +54,26 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 
 #social .fa:hover {color: #ff551a;}
 
+
+/* Home */
+#home h1 {font-family: 'Roboto'; color: #444; margin: 70px 0 40px; text-align: center;}
+#home h1 .orange {color: #ff551a;}
+#home h1 .slogan {font-weight: lighter;}
+#home h2 {font-family: 'Roboto'; text-align: center; margin: 40px 0;}
+
+#home .presentation {text-align: center; color: #888; font-size: 16px;}
+
+#home .lets_go {padding: 10px 28px; font-size: 18px;}
+
+#home .argument {padding: 30px 10px 10px;}
+#home .argument:hover {background-color: #eee;}
+#home .argument .picture {background-color: #eee; width: 100px; height: 100px; border-radius: 50%; margin: auto;text-align: center; line-height: 100px;}
+#home .argument .picture i {font-size: 25px;}
+#home .argument:hover > .picture {background-color: #444;}
+#home .argument:hover > .picture i {color: #fff;}
+
+#home .argument .title {text-align: center; color: #ff551a; font-size: 18px; margin: 10px 0;}
+#home .argument .description {text-align: justify;}
 
 /* Login */
 #login {width: 40%; margin: auto;}
