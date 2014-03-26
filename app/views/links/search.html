@@ -11,8 +11,21 @@
 
 <img src="images/loading.gif" style="display: block; margin: 0 auto 10px" ng-show="showLoading">
 
-<div ng-repeat="l in links" ng-show="links != null">
-	<p><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></p>
-</div>
+<table class="table links" ng-show="links.length > 0" id="search_links">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Link</th>
+			<th>Folder</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="l in links" ng-show="links != null" ng-click="redirect(l.url, $event)">
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.title}}</a></td>
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
+			<td><a target="_blank">{{l.name}}</a></td>
+		</tr>
+	</tbody>
+</table>
 
-<div ng-show="noResult">No result</div>
+<div ng-show="noResult" class="t-center">No result...</div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bookmarksApp')
-	.controller('LinkSearchCtrl', ['$scope', 'Link', function($scope, Link) {
+	.controller('LinkSearchCtrl', ['$scope', '$location', 'Link', function($scope, $location, Link) {
 		$scope.links = null;
 		$scope.noResult = false;
 		$scope.showLoading = false;
@@ -24,6 +24,12 @@ angular.module('bookmarksApp')
 			} else {
 				$scope.links = null;
 			}
+		}
+
+		$scope.redirect = function(url, event) {
+			// console.log(url);
+			// $location.path(url);
+			event.stopPropagation();
 		}
 	}])
 	.controller('LinkListCtrl', ['$scope', '$routeParams', '$location', '$modal', 'growl', 'Link', 'Folder', function($scope, $routeParams, $location, $modal, growl, Link, Folder) {

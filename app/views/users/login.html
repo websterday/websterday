@@ -12,7 +12,13 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
 			<input type="password" class="form-control" ng-model="password" placeholder="Password">
 		</div>
+		
+		<div class="input-group" style="margin-top: 20px; margin-bottom: 15px">
+			<div class="checkbox col-md-8" style="margin-top: 6px">
+				<label><input type="checkbox" ng-model="remember"> Remember me</label>
+			</div>
+			<div class="col-md-4" style="padding-right: 0"><button type="submit" class="btn btn-default submit">Sign In</button></div>
+		</div>
 		<a href="#/forgot-password" class="forgotten_password">Forgot your password ?</a>
-		<button type="submit" class="btn btn-default submit">Sign In</button>
 	</form>
 </div>

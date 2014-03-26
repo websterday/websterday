@@ -31,6 +31,8 @@ angular.module('bookmarksApp', [
 		$rootScope.$on('$routeChangeStart', function() {
 			$rootScope.isLogged = Auth.check();
 		});
+
+		
 		// $rootScope.isLogged = false;
 		
 		$rootScope.wsUrl = '/BookmarksWS/';
