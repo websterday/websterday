@@ -1,14 +1,32 @@
 'use strict';
 
 angular.module('bookmarksApp')
-	.factory('Auth', ['$cookieStore', function($cookieStore) {
+	.factory('Auth', ['$rootScope', '$cookieStore', '$location', 'growl', 'User', function($rootScope, $cookieStore, $location, growl, User) {
 		return {
-			check: function() {
-				if ($cookieStore.get('token') != undefined) {
-					return true;
+			check: function(requireLogin) {
+				if ($cookieStore.get('id') != undefined && $cookieStore.get('token') != undefined) {
+					User.checkAuth({id: $cookieStore.get('id'), token: $cookieStore.get('token')}, function(data) {
+						if (data[0] == 1) {
+							$rootScope.isLogged = true;
+						} else {
+							$rootScope.isLogged = false;
+						}
+
+						if (requireLogin && !$rootScope.isLogged) {
+							$location.path('/sign-in');
+							growl.addErrorMessage('Authentification required');
+						}
+					});
 				} else {
-					return false;
+					$rootScope.isLogged = false;
+
+					if (requireLogin && !$rootScope.isLogged) {
+						$location.path('/sign-in');
+						growl.addErrorMessage('Authentification required');
+					}
 				}
+
+				// console.log($rootScope.isLogged);
 			}
 		}
 	}])
@@ -18,5 +36,6 @@ angular.module('bookmarksApp')
 			post: {method:'POST', url: WS.url + '/users'},
 			// put: {method:'PUT', params:{id: '@id'}},
 			authenticate: {method: 'POST', url: WS.url + '/users/authenticate'},
+			checkAuth: {method: 'GET', url: WS.url + '/users/check-auth/:id/:token'},
 		});
 	}]);

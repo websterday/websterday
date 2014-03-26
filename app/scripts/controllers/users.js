@@ -40,7 +40,8 @@ angular.module('bookmarksApp')
 
 			if ($scope.username != null && $scope.password != null) {
 				User.authenticate({username: $scope.username, password: $scope.password}, function(data) {
-					if (angular.isDefined(data.token)) {
+					if (angular.isDefined(data.id) && angular.isDefined(data.token)) {
+						$cookieStore.put('id', data.id);
 						$cookieStore.put('token', data.token);
 
 						if (angular.isDefined($scope.remember) && $scope.remember == 1) {
