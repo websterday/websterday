@@ -74,8 +74,10 @@ angular.module('bookmarksApp')
 				User.forgottenPassword({email: $scope.email}, function(data) {
 					if (angular.isDefined(data.error)) {
 						growl.addErrorMessage(data.error);
-					} else {
+					} else if (data[0] == 1) {
 						$scope.showConfirmation = true;
+					} else {
+						growl.addErrorMessage('Problem to send the email');
 					}
 				});
 			}
