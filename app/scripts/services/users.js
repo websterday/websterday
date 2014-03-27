@@ -37,5 +37,6 @@ angular.module('bookmarksApp')
 			// put: {method:'PUT', params:{id: '@id'}},
 			authenticate: {method: 'POST', url: WS.url + '/users/authenticate'},
 			checkAuth: {method: 'GET', url: WS.url + '/users/check-auth/:id/:token'},
+			forgottenPassword: {method: 'GET', url: WS.url + '/users/forgotten-password/:email'},
 		});
 	}]);

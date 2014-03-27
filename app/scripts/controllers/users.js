@@ -66,6 +66,18 @@ angular.module('bookmarksApp')
 
 		$location.path('/');
 	}])
-	.controller('UserForgottenPasswordCtrl', ['$scope', function ($scope) {
-		
+	.controller('UserForgottenPasswordCtrl', ['$scope', 'growl', 'User', function ($scope, growl, User) {
+		$scope.showConfirmation = false;
+
+		$scope.send = function() {
+			if (angular.isDefined($scope.email)) {
+				User.forgottenPassword({email: $scope.email}, function(data) {
+					if (angular.isDefined(data.error)) {
+						growl.addErrorMessage(data.error);
+					} else {
+						$scope.showConfirmation = true;
+					}
+				});
+			}
+		}
 	}]);
