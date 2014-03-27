@@ -11,7 +11,7 @@ a:hover {color: #FF551A; text-decoration: underline;}
 /* Form */
 .form-horizontal .control-label.t-left {text-align: left;}
 
-textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="url"]:focus, .uneditable-input:focus {border: none; box-shadow: 0 0 2px 2px #FF551A;}
+/*textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="url"]:focus, .uneditable-input:focus {border: none; box-shadow: 0 0 2px 2px #FF551A;}*/
 
 .submit, .new_link {background-color: #ff551a; color: #fff; border: none; padding: 7px 18px;}
 
@@ -76,8 +76,6 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
 #home .argument .description {text-align: justify;}
 
 /* Login */
-#login {width: 40%; margin: auto;}
-
 #login .input-group {margin: 25px 0; width: 100%;}
 
 .forgotten_password {color: #888; font-style: italic; line-height: 35px;}
