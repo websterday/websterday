@@ -32,7 +32,7 @@ angular.module('bookmarksApp')
 	}])
 	.factory('User', ['$resource', '$cookieStore', 'WS', function($resource, $cookieStore, WS) {
 		return $resource(WS.url + '/users/:id?token=' + $cookieStore.get('token'), {}, {
-			// get: {method:'GET', params:{id: '@id'}},
+			get: {method:'GET', params:{id: '@id'}},
 			post: {method:'POST', url: WS.url + '/users'},
 			// put: {method:'PUT', params:{id: '@id'}},
 			authenticate: {method: 'POST', url: WS.url + '/users/authenticate'},

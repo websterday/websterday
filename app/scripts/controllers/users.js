@@ -59,7 +59,13 @@ angular.module('bookmarksApp')
 		}
 	}])
 	.controller('UserAccountCtrl', ['$scope', '$cookieStore', '$location', 'User', function ($scope, $cookieStore, $location, User) {
-		
+		User.get({id: $cookieStore.get('id')}, function(data) {
+			if (angular.isUndefined($scope.error)) {
+				$scope.user = data;
+			} else {
+				growl.addErrorMessage(data.error);
+			}
+		})
 	}])
 	.controller('UserLogoutCtrl', ['$scope', '$cookieStore', '$location', function ($scope, $cookieStore, $location) {
 		$cookieStore.remove('token');
