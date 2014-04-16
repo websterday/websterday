@@ -41,7 +41,7 @@
 		</tr>
 		<tr ng-repeat="l in tree.links" ng-click="checkLine(l.id, 'links')">
 			<td ng-click="$event.stopPropagation();"><input type="checkbox" ng-model="checked['links'][l.id]" ng-click="check(l.id, 'links', $event)"></td>
-			<td><i class="fa fa-link"></i> ...</td>
+			<td><i class="fa fa-link"></i> {{l.title}}</td>
 			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
 			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
 			<!-- <td ng-click="moveLink(l.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td> -->
