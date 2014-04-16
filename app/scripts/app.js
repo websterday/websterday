@@ -6,7 +6,8 @@ angular.module('bookmarksApp', [
 	'ngRoute',
 	'ui.bootstrap',
 	'ngAnimate',
-	'angular-growl'
+	'angular-growl',
+	'truncate'
 ])
 	.config(function($routeProvider) {
 		$routeProvider
