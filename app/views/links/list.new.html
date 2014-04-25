@@ -1,0 +1,55 @@
+<h1>History</h1>
+
+<div class="f-left">
+	<ol class="breadcrumb breadcrumb_list">
+		<li><a href="#/links"><span class="glyphicon glyphicon-home"></span></a></li>
+		<li ng-repeat="b in tree.breadcrumb"><a href="#/links/{{b.id}}">{{b.name}}</a></li>
+		<li class="active">{{tree.folder.name}}</li>
+	</ol>
+</div>
+<div class="f-right">
+	<button type="button" class="btn btn-default new_link" ng-click="addLinkModal()">New link</button>
+	<button type="button" class="btn btn-default" ng-click="addFolderModal()" style="margin-right: 10px"><i class="fa fa-folder"></i></button>
+	<div class="btn-group">
+		<!-- <button type="button" class="btn btn-default" ng-disabled="!showMoveButton"><i class="fa fa-arrows"></i></button> -->
+		<button type="button" class="btn btn-default" ng-disabled="!showDeleteButton" ng-click="deleteMultipleModal()"><span class="fa fa-trash-o"></span></button>
+	</div>
+</div>
+<div class="clear"></div>
+
+<table class="table table-hover links" ng-show="tree.folders.length > 0 || tree.links.length > 0">
+	<thead>
+		<tr>
+			<th><input type="checkbox" ng-model="allLinks" ng-click="checkAll()"></th>
+			<th>Title</th>
+			<th>Link</th>
+			<th>Added</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="f in tree.folders" ng-click="redirect('/links/' + f.id, $event)">
+			<td ng-click="$event.stopPropagation();"><input type="checkbox" ng-model="checked['folders'][f.id]" ng-click="check(f.id, 'folders', $event)"></td>
+			<td><i class="fa fa-folder"></i> {{f.name}}</td>
+			<td></td>
+			<td style="width: 100px">{{f.date * 1000 | date:'MM/dd/yyyy'}}</td>
+			<!-- <td ng-click="moveFolder(f.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td> -->
+			<!-- <td ng-click="duplicateFolder(f.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td> -->
+			<td ng-click="editFolder(f.id, f.name, f.date, $event)" style="width: 20px"><span class="fa fa-pencil"></span></td>
+			<td ng-click="deleteFolder(f.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
+		</tr>
+		<tr ng-repeat="l in tree.links" ng-click="checkLine(l.id, 'links')">
+			<td ng-click="$event.stopPropagation();"><input type="checkbox" ng-model="checked['links'][l.id]" ng-click="check(l.id, 'links', $event)"></td>
+			<td><i class="fa fa-link"></i> {{l.title | characters: 50}}</td>
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.url | characters: 70}}</a></td>
+			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
+			<!-- <td ng-click="moveLink(l.id, $event)" style="width: 20px"><span class="fa fa-arrows"></span></td> -->
+			<!-- <td ng-click="duplicateLink(l.id, $event)" style="width: 20px"><span class="fa fa-copy"></span></td> -->
+			<td ng-click="editLink(l.id, l.url, l.date, $event)" style="width: 20px"><span class="fa fa-pencil"></span></td>
+			<td ng-click="deleteLink(l.id, $event)" style="width: 20px"><span class="fa fa-trash-o"></span></td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="empty_list" ng-show="tree.folders.length == 0 && tree.links.length == 0">Nothing here...</p>

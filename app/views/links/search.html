@@ -16,14 +16,14 @@
 		<tr>
 			<th>Title</th>
 			<th>Link</th>
-			<th>Folder</th>
+			<!-- <th>Folder</th> -->
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="l in links" ng-show="links != null" ng-click="redirect(l.url, $event)">
-			<td><a ng-href="{{l.url}}" target="_blank">{{l.title}}</a></td>
-			<td><a ng-href="{{l.url}}" target="_blank">{{l.url}}</a></td>
-			<td><a target="_blank">{{l.name}}</a></td>
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.title | characters: 50}}</a></td>
+			<td><a ng-href="{{l.url}}" target="_blank">{{l.url | characters: 70}}</a></td>
+			<!-- <td><a target="_blank">{{l.name}}</a></td> -->
 		</tr>
 	</tbody>
 </table>
