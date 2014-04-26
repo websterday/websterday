@@ -20,6 +20,7 @@ angular.module('bookmarksApp', [
 		.when('/forgot-password', {templateUrl: 'views/users/forgotten_password.html', controller: 'UserForgottenPasswordCtrl', requireLogin: false})
 		.when('/account', {templateUrl: 'views/users/account.html', controller: 'UserAccountCtrl', requireLogin: true})
 		.when('/logout', {templateUrl: 'views/users/login.html', controller: 'UserLogoutCtrl', requireLogin: true})		// TODO delete templateUrl
+		.when('/start', {templateUrl: 'views/start.html', controller: 'StartCtrl', requireLogin: false})
 		.when('/contact', {templateUrl: 'views/contact/index.html', controller: 'ContactCtrl', requireLogin: false})
 		.when('/privacy_policy', {templateUrl: 'views/privacy_policy.html', controller: 'PrivacyPolicyCtrl', requireLogin: false})
 		.when('/terms_of_service', {templateUrl: 'views/terms_service.html', controller: 'TermsServiceCtrl', requireLogin: false})

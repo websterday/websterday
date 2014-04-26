@@ -63,7 +63,7 @@ a:hover {color: #FF551A; text-decoration: underline;}
 
 #home .presentation {text-align: center; color: #888; font-size: 16px;}
 
-#home .lets_go {padding: 10px 28px; font-size: 18px;}
+.start_button {padding: 10px 28px; font-size: 18px;}
 
 #home .argument {padding: 30px 10px 10px;}
 #home .argument:hover {background-color: #eee;}
