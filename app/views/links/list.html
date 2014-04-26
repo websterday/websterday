@@ -2,7 +2,7 @@
 
 <button type="button" class="btn btn-default new_link" ng-click="addLinkModal()">New link</button>
 
-<table class="table links" ng-show="tree.folders.length > 0 || tree.links.length > 0">
+<table class="table links" ng-show="links.length > 0">
 	<thead>
 		<tr>
 			<th>Title</th>
@@ -11,12 +11,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="l in tree.links" ng-click="checkLine(l.id, 'links')">
+		<tr ng-repeat="l in links" ng-click="checkLine(l.id, 'links')">
 			<td>{{l.title | characters: 50}}</td>
 			<td><a ng-href="{{l.url}}" target="_blank">{{l.url | characters: 70}}</a></td>
-			<td style="width: 100px">{{l.date * 1000 | date:'MM/dd/yyyy'}}</td>
+			<td style="width: 100px">{{l.created * 1000 | date:'MM/dd/yyyy'}}</td>
 		</tr>
 	</tbody>
 </table>
 
-<p class="empty_list" ng-show="tree.folders.length == 0 && tree.links.length == 0">Nothing here...</p>
+<p class="empty_list" ng-show="links.length == 0">You have no link for the moment...</p>

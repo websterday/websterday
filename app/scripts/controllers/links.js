@@ -49,7 +49,7 @@ angular.module('bookmarksApp')
 		Link.list({folderId: $routeParams.folderId}, function(data) {
 			// $scope.showLoading = false;
 
-			$scope.tree = data;
+			$scope.links = data;
 		});
 
 		$scope.redirect = function(url) {
@@ -197,7 +197,7 @@ angular.module('bookmarksApp')
 
 			modalInstance.result.then(function(link) {
 				if (angular.isDefined(link)) {
-					$scope.tree.links.push(link);
+					$scope.links.push(link);
 				}
 			});
 		};
