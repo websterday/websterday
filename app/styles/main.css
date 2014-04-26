@@ -104,6 +104,9 @@ table.links tbody tr {cursor: pointer;}
 table.links a {color: #333;}
 table.links a:hover {color: #ff551a; text-decoration: none;}
 
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td,
+.table > tbody > tr > td, .table > tfoot > tr > td {padding: 4px;}
+
 
 /* Modal */
 .modal-header h3 {margin: 5px 0;}
